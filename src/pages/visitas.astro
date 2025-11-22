@@ -3,14 +3,71 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 ---
 
 <DefaultLayout>
-    <h1 class="text-2xl font-bold mb-4">Visitas</h1>
-    <div id="visitas" class="space-y-4"></div>
-    <button id="logout" class="mt-6 bg-gray-200 px-3 py-1 rounded">Cerrar sesión</button>
+    <div class="max-w-6xl mx-auto p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Visitas</h1>
+            <div class="flex gap-2">
+                <button id="btnAgregar" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    + Nueva Visita
+                </button>
+                <button id="logout" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+                    Cerrar sesión
+                </button>
+            </div>
+        </div>
+        
+        <div id="visitas" class="space-y-4"></div>
+
+        <!-- Modal para agregar/editar visita -->
+        <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md">
+                <h2 id="modalTitle" class="text-xl font-bold mb-4">Nueva Visita</h2>
+                <form id="formVisita" class="space-y-3">
+                    <input type="hidden" id="visitaId" />
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Nombre</label>
+                        <input type="text" id="nombre" required class="w-full border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">RUT</label>
+                        <input type="text" id="rut" required class="w-full border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Motivo</label>
+                        <textarea id="motivo" required class="w-full border rounded px-3 py-2" rows="3"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Hora de Entrada</label>
+                        <input type="datetime-local" id="horaEntrada" required class="w-full border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Hora de Salida</label>
+                        <input type="datetime-local" id="horaSalida" required class="w-full border rounded px-3 py-2" />
+                    </div>
+                    <div class="flex gap-2 pt-4">
+                        <button type="submit" class="flex-1 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                            Guardar
+                        </button>
+                        <button type="button" id="btnCancelar" class="flex-1 bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </DefaultLayout>
 
 <script>
+    const API_URL = 'http://127.0.0.1:8000/visitas/';
     const visitasContainer = document.getElementById('visitas');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const formVisita = document.getElementById('formVisita');
+    const btnAgregar = document.getElementById('btnAgregar');
+    const btnCancelar = document.getElementById('btnCancelar');
     const logoutBtn = document.getElementById('logout');
+    
     const token = window.sessionStorage.getItem('access_token');
 
     if (!token) {
@@ -18,60 +75,280 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             visitasContainer.innerHTML = '<p class="text-red-600">No hay token. Inicia sesión primero.</p>';
         }
     } else {
-        if (visitasContainer) {
-            visitasContainer.innerHTML = '<p>Cargando visitas...</p>';
-        }
+        cargarVisitas();
+    }
 
-        fetch('http://127.0.0.1:8000/visitas/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+    function getHeaders() {
+        return {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+    }
+
+    async function cargarVisitas() {
+        if (!visitasContainer) return;
+        
+        visitasContainer.innerHTML = '<p>Cargando visitas...</p>';
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'GET',
+                headers: getHeaders()
+            });
+
+            if (!res.ok) throw new Error('Error al obtener visitas');
+
+            const data = await res.json();
+            const visitas = Array.isArray(data) ? data : (data.results || [data]);
+
+            console.log('Estructura de visitas:', visitas.length > 0 ? visitas[0] : 'sin datos');
+
+            visitasContainer.innerHTML = '';
+
+            if (visitas.length === 0) {
+                visitasContainer.innerHTML = '<p class="text-gray-600">No hay visitas registradas.</p>';
+                return;
             }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al obtener visitas');
+
+            // Determinar clave de ID real presente en los objetos
+            const idKey = Object.keys(visitas[0]).find(k => ['id','pk','_id'].includes(k)) || null;
+            if (!idKey) {
+                const warning = document.createElement('div');
+                warning.className = 'border border-yellow-400 bg-yellow-50 text-yellow-800 p-3 rounded mb-4';
+                warning.innerHTML = '<strong>Advertencia:</strong> La API no devuelve un campo de identificación (id/pk). No se puede eliminar ni actualizar sin duplicar. Agrega el campo <code>id</code> en el serializer del backend.';
+                visitasContainer.appendChild(warning);
             }
-            return response.json();
-        })
-        .then(data => {
-            if (visitasContainer) {
-                visitasContainer.innerHTML = '';
+
+            visitas.forEach((item: any, index: number) => {
+                const visitaElement = document.createElement('div');
+                visitaElement.className = 'border rounded p-4 bg-white shadow-sm';
                 
-                // Asegurarse de que data sea un array
-                const visitas = Array.isArray(data) ? data : (data.results || [data]);
+                // Usar la clave detectada (si existe)
+                const visitaId = idKey ? item[idKey] : '';
                 
-                if (visitas.length === 0) {
-                    visitasContainer.innerHTML = '<p class="text-gray-600">No hay visitas registradas.</p>';
-                    return;
-                }
+                console.log(`Visita ${index}:`, { id: visitaId, nombre: item.nombre, todosLosCampos: Object.keys(item), idKey });
                 
-                visitas.forEach((item: any) => {
-                    const visitaElement = document.createElement('div');
-                    visitaElement.className = 'border rounded p-4 bg-white shadow-sm';
-                    visitaElement.innerHTML = `
-                        <div class="flex justify-between mb-2">
-                            <h3 class="font-semibold">${item.nombre || '—'}</h3>
+                visitaElement.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg">${item.nombre || '—'}</h3>
                             <span class="text-sm text-gray-600">${item.rut || '—'}</span>
                         </div>
-                        <div class="mb-2">
-                            <strong>Motivo:</strong>
-                            <p class="whitespace-pre-wrap">${item.motivo || '—'}</p>
+                        <div class="flex gap-2">
+                            <button class="btn-editar bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600" data-index="${index}">
+                                Editar
+                            </button>
+                            ${idKey ? `<button class=\"btn-eliminar bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600\" data-id=\"${visitaId}\">Eliminar</button>` : ''}
                         </div>
-                        <div class="text-sm text-gray-700">
-                            <div><strong>Entrada:</strong> ${new Date(item.hora_entrada).toLocaleString()}</div>
-                            <div><strong>Salida:</strong> ${new Date(item.hora_salida).toLocaleString()}</div>
-                        </div>
-                    `;
-                    visitasContainer.appendChild(visitaElement);
+                    </div>
+                    <div class="mb-2">
+                        <strong>Motivo:</strong>
+                        <p class="whitespace-pre-wrap">${item.motivo || '—'}</p>
+                    </div>
+                    <div class="text-sm text-gray-700">
+                        <div><strong>Entrada:</strong> ${formatDate(item.hora_entrada)}</div>
+                        <div><strong>Salida:</strong> ${formatDate(item.hora_salida)}</div>
+                    </div>
+                `;
+                visitasContainer.appendChild(visitaElement);
+            });
+
+            // Agregar event listeners a los botones
+            document.querySelectorAll('.btn-editar').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const target = e.target as HTMLElement;
+                    const index = parseInt(target.dataset.index || '0');
+                    editarVisita(index, visitas);
+                });
+            });
+
+            if (idKey) {
+                document.querySelectorAll('.btn-eliminar').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const target = e.target as HTMLElement;
+                        const id = target.dataset.id;
+                        console.log('Intentando eliminar ID:', id);
+                        if (id && id !== '' && id !== 'undefined') {
+                            eliminarVisita(id);
+                        } else {
+                            alert('Error: No se puede identificar la visita. Revisa la consola para más detalles.');
+                        }
+                    });
                 });
             }
-        })
-        .catch(error => {
+
+        } catch (error) {
             console.error('Error fetching visitas:', error);
-            if (visitasContainer) {
-                visitasContainer.innerHTML = '<p class="text-red-600">Error al cargar las visitas</p>';
+            visitasContainer.innerHTML = '<p class="text-red-600">Error al cargar las visitas</p>';
+        }
+    }
+
+    function formatDate(d?: string) {
+        if (!d) return '-';
+        try {
+            const dt = new Date(d);
+            return isNaN(dt.getTime()) ? d : dt.toLocaleString();
+        } catch {
+            return d;
+        }
+    }
+
+    function toISOLocal(date: Date) {
+        const offset = date.getTimezoneOffset();
+        const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+        return adjustedDate.toISOString().slice(0, 16);
+    }
+
+    function abrirModal(titulo: string) {
+        if (modalTitle) modalTitle.textContent = titulo;
+        if (modal) modal.classList.remove('hidden');
+    }
+
+    function cerrarModal() {
+        if (modal) modal.classList.add('hidden');
+        if (formVisita) (formVisita as HTMLFormElement).reset();
+        const visitaIdInput = document.getElementById('visitaId') as HTMLInputElement;
+        if (visitaIdInput) visitaIdInput.value = '';
+    }
+
+    function editarVisita(index: number, visitas: any[]) {
+        const visita = visitas[index];
+        if (!visita) return;
+
+        const visitaId = visita.id || visita.pk || '';
+        console.log('Editando visita con ID:', visitaId, 'Visita completa:', visita);
+        
+        (document.getElementById('visitaId') as HTMLInputElement).value = String(visitaId);
+        (document.getElementById('nombre') as HTMLInputElement).value = visita.nombre || '';
+        (document.getElementById('rut') as HTMLInputElement).value = visita.rut || '';
+        (document.getElementById('motivo') as HTMLTextAreaElement).value = visita.motivo || '';
+        
+        if (visita.hora_entrada) {
+            (document.getElementById('horaEntrada') as HTMLInputElement).value = toISOLocal(new Date(visita.hora_entrada));
+        }
+        if (visita.hora_salida) {
+            (document.getElementById('horaSalida') as HTMLInputElement).value = toISOLocal(new Date(visita.hora_salida));
+        }
+
+        abrirModal('Editar Visita');
+        
+        // Verificar que el ID se guardó correctamente
+        setTimeout(() => {
+            const savedId = (document.getElementById('visitaId') as HTMLInputElement).value;
+            console.log('ID guardado en input hidden:', savedId);
+        }, 100);
+    }
+
+    async function eliminarVisita(id: string) {
+        console.log('=== ELIMINAR VISITA ===');
+        console.log('ID recibido:', id, 'tipo:', typeof id);
+        
+        if (!id || id === 'undefined' || id.trim() === '') {
+            alert('No se puede eliminar: ID no válido. Verifica la estructura de datos de la API.');
+            console.error('ID inválido para eliminar');
+            return;
+        }
+
+        if (!confirm('¿Estás seguro de eliminar esta visita?')) return;
+
+        const deleteUrl = `${API_URL}${id}/`;
+        console.log('URL DELETE:', deleteUrl);
+
+        try {
+            const res = await fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: getHeaders()
+            });
+
+            console.log('Respuesta DELETE:', res.status, res.statusText);
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.error('Error del servidor:', errorText);
+                throw new Error('Error al eliminar visita');
+            }
+
+            alert('Visita eliminada correctamente');
+            cargarVisitas();
+        } catch (error) {
+            console.error('Error completo:', error);
+            alert('Error al eliminar la visita. Revisa la consola para más detalles.');
+        }
+    }
+
+    // Event listeners
+    if (btnAgregar) {
+        btnAgregar.addEventListener('click', () => {
+            abrirModal('Nueva Visita');
+        });
+    }
+
+    if (btnCancelar) {
+        btnCancelar.addEventListener('click', cerrarModal);
+    }
+
+    if (formVisita) {
+        formVisita.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const visitaId = (document.getElementById('visitaId') as HTMLInputElement).value;
+            console.log('Submit - visitaId del input:', visitaId, 'tipo:', typeof visitaId);
+            
+            const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
+            const rut = (document.getElementById('rut') as HTMLInputElement).value;
+            const motivo = (document.getElementById('motivo') as HTMLTextAreaElement).value;
+            const horaEntrada = (document.getElementById('horaEntrada') as HTMLInputElement).value;
+            const horaSalida = (document.getElementById('horaSalida') as HTMLInputElement).value;
+
+            const visitaData = {
+                nombre,
+                rut,
+                motivo,
+                hora_entrada: new Date(horaEntrada).toISOString(),
+                hora_salida: new Date(horaSalida).toISOString()
+            };
+
+            try {
+                let url, method;
+                
+                // Verificar si visitaId tiene un valor válido
+                const isEdit = visitaId && visitaId.trim() !== '' && visitaId !== 'undefined';
+                
+                if (isEdit) {
+                    // Editar: usar PUT para reemplazo completo
+                    url = `${API_URL}${visitaId}/`;
+                    method = 'PUT';
+                    console.log('Editando visita ID:', visitaId, 'URL:', url);
+                } else {
+                    // Crear nueva
+                    url = API_URL;
+                    method = 'POST';
+                    console.log('Creando nueva visita en:', url);
+                }
+
+                console.log('Enviando:', method, url, visitaData);
+
+                const res = await fetch(url, {
+                    method,
+                    headers: getHeaders(),
+                    body: JSON.stringify(visitaData)
+                });
+
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => null);
+                    console.error('Error del servidor:', res.status, errorData);
+                    throw new Error(`Error al ${isEdit ? 'actualizar' : 'crear'} visita`);
+                }
+
+                const resultado = await res.json();
+                console.log('Respuesta del servidor:', resultado);
+
+                alert(`Visita ${isEdit ? 'actualizada' : 'creada'} correctamente`);
+                cerrarModal();
+                cargarVisitas();
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error al ${visitaId ? 'actualizar' : 'crear'} la visita`);
             }
         });
     }

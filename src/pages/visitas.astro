@@ -72,7 +72,9 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 </DefaultLayout>
 
 <script>
-    const API_URL = 'http://127.0.0.1:8000/visitas/';
+    // Base dinámica: definida en build (Netlify) con PUBLIC_BACKEND_URL
+    const API_BASE = import.meta.env ? (import.meta.env.PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000') : 'http://127.0.0.1:8000';
+    const API_URL = `${API_BASE}/visitas/`;
     const visitasContainer = document.getElementById('visitas');
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modalTitle');
@@ -127,8 +129,8 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             const idKey = Object.keys(visitas[0]).find(k => ['id','pk','_id'].includes(k)) || null;
             if (!idKey) {
                 const warning = document.createElement('div');
-                warning.className = 'border border-yellow-400 bg-yellow-50 text-yellow-800 p-3 rounded mb-4';
-                warning.innerHTML = '<strong>Advertencia:</strong> La API no devuelve un campo de identificación (id/pk). No se puede eliminar ni actualizar sin duplicar. Agrega el campo <code>id</code> en el serializer del backend.';
+                warning.className = 'border border-yellow-400 bg-yellow-50 text-yellow-800 p-3 rounded mb-4 text-sm';
+                warning.innerHTML = '<strong>Advertencia:</strong> La API no devuelve un campo de identificación (id/pk). No se puede eliminar ni actualizar sin duplicar. Agrega el campo <code>id</code> y habilita CORS en el backend.';
                 visitasContainer.appendChild(warning);
             }
 
@@ -194,8 +196,9 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             }
 
         } catch (error) {
+            const corsMsg = (error instanceof TypeError) ? 'Fallo de red/CORS: verifica que el backend permita origen.' : 'Error al cargar las visitas';
             console.error('Error fetching visitas:', error);
-            visitasContainer.innerHTML = '<p class="text-red-600">Error al cargar las visitas</p>';
+            visitasContainer.innerHTML = `<p class="text-red-600">${corsMsg}</p>`;
         }
     }
 

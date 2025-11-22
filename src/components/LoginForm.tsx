@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+// Base URL obtenida de variable pública para despliegue. En local usa fallback.
+const API_BASE = import.meta.env.PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000';
+
 export default function LoginForm() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -15,7 +18,7 @@ export default function LoginForm() {
         const password = formData.get("password");
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/token/", {
+            const res = await fetch(`${API_BASE}/api/token/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
@@ -38,8 +41,10 @@ export default function LoginForm() {
                 setError("Respuesta inválida del servidor");
             }
         } catch (error) {
+            // Mensaje específico si es CORS/network
+            const mensaje = (error instanceof TypeError) ? 'Error de red/CORS. Verifica dominio backend y CORS.' : 'Error de red. Intenta nuevamente.';
             console.error("Error al conectar con el servidor:", error);
-            setError("Error de red. Intenta nuevamente.");
+            setError(mensaje);
         } finally {
             setLoading(false);
         }

@@ -3,56 +3,69 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 ---
 
 <DefaultLayout>
-    <div class="max-w-6xl mx-auto p-4">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Visitas</h1>
-            <div class="flex gap-2">
-                <button id="btnAgregar" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    + Nueva Visita
+    <div class="max-w-7xl mx-auto p-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight">Panel de Visitas</h1>
+                <p class="text-sm text-white/60 mt-1">Gestión rápida y segura de registros</p>
+            </div>
+            <div class="flex gap-3">
+                <button id="btnAgregar" class="group relative px-5 py-2.5 rounded-lg font-medium text-sm text-white bg-gradient-to-r from-indigo-500 to-fuchsia-500 shadow hover:shadow-lg hover:brightness-110 active:scale-[.97] transition">
+                    <span class="inline-block group-hover:translate-y-[-2px] transition">+ Nueva Visita</span>
                 </button>
-                <button id="logout" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+                <button id="logout" class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 backdrop-blur transition">
                     Cerrar sesión
                 </button>
             </div>
         </div>
-        
-        <div id="visitas" class="space-y-4"></div>
+
+        <!-- Bloque de analíticas -->
+        <section class="mb-10">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold flex items-center gap-2"><span>📊</span>Analíticas Semanales</h2>
+                <button id="btnRefrescarStats" class="text-xs px-3 py-1.5 rounded bg-white/10 border border-white/20 hover:bg-white/20 transition">Actualizar</button>
+            </div>
+            <div class="stats-card relative rounded-2xl p-6 overflow-hidden">
+                <canvas id="visitasChart" height="110" aria-label="Gráfico de visitas por día" role="img"></canvas>
+            </div>
+        </section>
+
+        <div id="visitas" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
 
         <!-- Modal para agregar/editar visita -->
-        <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md">
-                <h2 id="modalTitle" class="text-xl font-bold mb-4">Nueva Visita</h2>
-                <form id="formVisita" class="space-y-3">
+        <div id="modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div class="relative w-full max-w-lg">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-2xl opacity-70 blur"></div>
+                <div class="relative bg-slate-900/90 rounded-2xl p-8 border border-white/10 shadow-xl">
+                <h2 id="modalTitle" class="text-2xl font-semibold mb-6">Nueva Visita</h2>
+                <form id="formVisita" class="space-y-5">
                     <input type="hidden" id="visitaId" />
                     <div>
-                        <label class="block text-sm font-medium mb-1">Nombre</label>
-                        <input type="text" id="nombre" required class="w-full border rounded px-3 py-2" />
+                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Nombre</label>
+                        <input type="text" id="nombre" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">RUT</label>
-                        <input type="text" id="rut" required class="w-full border rounded px-3 py-2" />
+                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">RUT</label>
+                        <input type="text" id="rut" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">Motivo</label>
-                        <textarea id="motivo" required class="w-full border rounded px-3 py-2" rows="3"></textarea>
+                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Motivo</label>
+                        <textarea id="motivo" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" rows="3"></textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">Hora de Entrada</label>
-                        <input type="datetime-local" id="horaEntrada" required class="w-full border rounded px-3 py-2" />
+                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Entrada</label>
+                        <input type="datetime-local" id="horaEntrada" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">Hora de Salida</label>
-                        <input type="datetime-local" id="horaSalida" required class="w-full border rounded px-3 py-2" />
+                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Salida</label>
+                        <input type="datetime-local" id="horaSalida" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
                     </div>
-                    <div class="flex gap-2 pt-4">
-                        <button type="submit" class="flex-1 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                            Guardar
-                        </button>
-                        <button type="button" id="btnCancelar" class="flex-1 bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
-                            Cancelar
-                        </button>
+                    <div class="flex gap-3 pt-2">
+                        <button type="submit" class="flex-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-5 py-2.5 rounded-lg font-medium shadow hover:shadow-lg hover:brightness-110 active:scale-[.98] transition">Guardar</button>
+                        <button type="button" id="btnCancelar" class="flex-1 bg-white/10 border border-white/15 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-white/20 transition">Cancelar</button>
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
@@ -121,7 +134,7 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
             visitas.forEach((item: any, index: number) => {
                 const visitaElement = document.createElement('div');
-                visitaElement.className = 'border rounded p-4 bg-white shadow-sm';
+                visitaElement.className = 'visita-card rounded-xl p-5 shadow-md';
                 
                 // Usar la clave detectada (si existe)
                 const visitaId = idKey ? item[idKey] : '';
@@ -153,6 +166,9 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                 visitasContainer.appendChild(visitaElement);
             });
 
+            // Generar analíticas después de renderizar tarjetas
+            generarEstadisticas(visitas);
+
             // Agregar event listeners a los botones
             document.querySelectorAll('.btn-editar').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -182,6 +198,112 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             visitasContainer.innerHTML = '<p class="text-red-600">Error al cargar las visitas</p>';
         }
     }
+
+    // ----- Analíticas -----
+    let visitasChart: any = null;
+    const diasLabels = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+
+    function generarEstadisticas(visitas: any[]) {
+        const conteos = [0,0,0,0,0,0,0];
+        visitas.forEach(v => {
+            const fechaStr = v.hora_entrada || v.hora_salida;
+            if (!fechaStr) return;
+            const d = new Date(fechaStr);
+            if (isNaN(d.getTime())) return;
+            // getDay(): 0=Dom ... 6=Sab -> remap to our labels starting Monday
+            const day = d.getDay();
+            const index = (day === 0) ? 6 : day - 1; // Monday=0 ... Sunday=6
+            conteos[index]++;
+        });
+        renderChart(conteos);
+    }
+
+    declare global {
+        interface Window { Chart?: any }
+    }
+
+    function ensureChartJs(callback: () => void) {
+        if (window.Chart) { callback(); return; }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
+        script.onload = () => callback();
+        document.head.appendChild(script);
+    }
+
+    function renderChart(data: number[]) {
+        ensureChartJs(() => {
+            const ctx = document.getElementById('visitasChart') as HTMLCanvasElement | null;
+            if (!ctx) return;
+            const darkMode = !document.documentElement.classList.contains('light');
+            const gradient = ctx.getContext('2d')!.createLinearGradient(0,0,0,180);
+            if (darkMode) {
+                gradient.addColorStop(0,'rgba(99,102,241,0.55)');
+                gradient.addColorStop(1,'rgba(236,72,153,0.15)');
+            } else {
+                gradient.addColorStop(0,'rgba(99,102,241,0.65)');
+                gradient.addColorStop(1,'rgba(236,72,153,0.25)');
+            }
+            const textColor = darkMode ? '#ffffff' : '#1e293b';
+            const gridColor = darkMode ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)';
+            if (visitasChart) {
+                visitasChart.data.datasets[0].data = data;
+                visitasChart.options.scales.x.ticks.color = textColor;
+                visitasChart.options.scales.y.ticks.color = textColor;
+                visitasChart.options.scales.x.grid.color = gridColor;
+                visitasChart.options.scales.y.grid.color = gridColor;
+                visitasChart.data.datasets[0].backgroundColor = gradient;
+                visitasChart.update();
+                return;
+            }
+            visitasChart = new (window as any).Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: diasLabels,
+                    datasets: [{
+                        label: 'Visitas',
+                        data,
+                        borderRadius: 6,
+                        backgroundColor: gradient,
+                        borderColor: 'rgba(255,255,255,0.4)',
+                        borderWidth: 1.2,
+                        hoverBackgroundColor: 'rgba(236,72,153,0.55)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: { duration: 650, easing: 'easeOutQuart' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: darkMode ? 'rgba(30,41,59,0.9)' : 'rgba(255,255,255,0.95)',
+                            titleColor: textColor,
+                            bodyColor: textColor,
+                            borderColor: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: { grid: { color: gridColor }, ticks: { color: textColor, font: { weight: '600' } } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor }, beginAtZero: true, suggestedMax: Math.max(...data) + 1 }
+                    }
+                }
+            });
+        });
+    }
+
+    // Botón manual de refresco
+    const btnRefrescarStats = document.getElementById('btnRefrescarStats');
+    btnRefrescarStats?.addEventListener('click', () => cargarVisitas());
+
+    // Re-render chart al cambiar tema
+    const themeObserver = new MutationObserver(() => {
+        if (visitasChart) {
+            // Forzar re-render con últimos datos
+            const currentData = visitasChart.data.datasets[0].data as number[];
+            renderChart(currentData);
+        }
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     function formatDate(d?: string) {
         if (!d) return '-';
@@ -361,3 +483,30 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
         });
     }
 </script>
+<style>
+    /* Tarjetas con contenedor visible en ambos temas */
+    .visita-card {
+        position:relative;
+        background:rgba(255,255,255,0.05);
+        border:1px solid rgba(255,255,255,0.18);
+        backdrop-filter:blur(12px);
+        color:#ffffff;
+        transition:background .25s,border-color .25s,transform .25s,box-shadow .25s;
+    }
+    .visita-card:hover {background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.35);box-shadow:0 6px 20px -6px rgba(0,0,0,.55);transform:translateY(-3px);}    
+    .visita-card h3 {font-weight:600;font-size:1.05rem;margin:0 0 .15rem;letter-spacing:.25px;color:#ffffff;}
+    .visita-card strong {color:#ffffff;font-weight:600;}
+    .visita-card p, .visita-card span, .visita-card div {color:#ffffff;}
+    .visita-card .text-gray-600, .visita-card .text-gray-700 {color:#ffffff !important;}
+    .visita-card .whitespace-pre-wrap {color:#ffffff;}
+    .btn-editar, .btn-eliminar {font-size:.70rem;font-weight:600;padding:.45rem .65rem;border-radius:.55rem;line-height:1;letter-spacing:.5px;}
+    .btn-editar {background:#d4a60b;}
+    .btn-editar:hover {background:#eab308;}
+    .btn-eliminar {background:#dc2626;}
+    .btn-eliminar:hover {background:#ef4444;}
+    html.light .visita-card {background:#ffffff;color:#1e293b;border:1px solid #e2e8f0;box-shadow:0 6px 18px -4px rgba(0,0,0,.15);}    
+    html.light .visita-card:hover {background:#ffffff;border-color:#cbd5e1;}
+    html.light .visita-card h3 {color:#0f172a;}
+    html.light .visita-card p, html.light .visita-card span, html.light .visita-card div {color:#334155;}
+    html.light .visita-card strong {color:#0f172a;}
+</style>

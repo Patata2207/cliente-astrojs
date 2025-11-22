@@ -4,4 +4,4 @@
 
 [environment]
   NODE_VERSION = "18"
-  PUBLIC_BACKEND_URL = "https://TU_DOMINIO_BACKEND" # Reemplaza por tu dominio real
+  PUBLIC_BACKEND_URL = "https://evaluacion-1-kn4q.onrender.com"

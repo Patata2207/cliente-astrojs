@@ -1,0 +1,86 @@
+---
+import DefaultLayout from "../layout/DefaultLayout.astro";
+---
+
+<DefaultLayout>
+    <h1 class="text-2xl font-bold mb-4">Visitas</h1>
+    <div id="visitas" class="space-y-4"></div>
+    <button id="logout" class="mt-6 bg-gray-200 px-3 py-1 rounded">Cerrar sesión</button>
+</DefaultLayout>
+
+<script>
+    const visitasContainer = document.getElementById('visitas');
+    const logoutBtn = document.getElementById('logout');
+    const token = window.sessionStorage.getItem('access_token');
+
+    if (!token) {
+        if (visitasContainer) {
+            visitasContainer.innerHTML = '<p class="text-red-600">No hay token. Inicia sesión primero.</p>';
+        }
+    } else {
+        if (visitasContainer) {
+            visitasContainer.innerHTML = '<p>Cargando visitas...</p>';
+        }
+
+        fetch('http://127.0.0.1:8000/visitas/', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener visitas');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (visitasContainer) {
+                visitasContainer.innerHTML = '';
+                
+                // Asegurarse de que data sea un array
+                const visitas = Array.isArray(data) ? data : (data.results || [data]);
+                
+                if (visitas.length === 0) {
+                    visitasContainer.innerHTML = '<p class="text-gray-600">No hay visitas registradas.</p>';
+                    return;
+                }
+                
+                visitas.forEach((item: any) => {
+                    const visitaElement = document.createElement('div');
+                    visitaElement.className = 'border rounded p-4 bg-white shadow-sm';
+                    visitaElement.innerHTML = `
+                        <div class="flex justify-between mb-2">
+                            <h3 class="font-semibold">${item.nombre || '—'}</h3>
+                            <span class="text-sm text-gray-600">${item.rut || '—'}</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Motivo:</strong>
+                            <p class="whitespace-pre-wrap">${item.motivo || '—'}</p>
+                        </div>
+                        <div class="text-sm text-gray-700">
+                            <div><strong>Entrada:</strong> ${new Date(item.hora_entrada).toLocaleString()}</div>
+                            <div><strong>Salida:</strong> ${new Date(item.hora_salida).toLocaleString()}</div>
+                        </div>
+                    `;
+                    visitasContainer.appendChild(visitaElement);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching visitas:', error);
+            if (visitasContainer) {
+                visitasContainer.innerHTML = '<p class="text-red-600">Error al cargar las visitas</p>';
+            }
+        });
+    }
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            window.sessionStorage.removeItem('access_token');
+            window.sessionStorage.removeItem('refresh_token');
+            window.location.href = '/login';
+        });
+    }
+</script>

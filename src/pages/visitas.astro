@@ -19,10 +19,9 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             </div>
         </div>
 
-        <!-- Bloque de analíticas -->
         <section class="mb-10">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-semibold flex items-center gap-2"><span>📊</span>Analíticas Semanales</h2>
+                <h2 class="text-xl font-semibold flex items-center gap-2"><span></span>Analíticas Semanales</h2>
                 <button id="btnRefrescarStats" class="text-xs px-3 py-1.5 rounded bg-white/10 border border-white/20 hover:bg-white/20 transition">Actualizar</button>
             </div>
             <div class="stats-card relative rounded-2xl p-6 overflow-hidden">
@@ -32,47 +31,72 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
         <div id="visitas" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
 
-        <!-- Modal para agregar/editar visita -->
         <div id="modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div class="relative w-full max-w-lg">
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-2xl opacity-70 blur"></div>
                 <div class="relative bg-slate-900/90 rounded-2xl p-8 border border-white/10 shadow-xl">
-                <h2 id="modalTitle" class="text-2xl font-semibold mb-6">Nueva Visita</h2>
-                <form id="formVisita" class="space-y-5">
-                    <input type="hidden" id="visitaId" />
-                    <div>
-                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Nombre</label>
-                        <input type="text" id="nombre" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">RUT</label>
-                        <input type="text" id="rut" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Motivo</label>
-                        <textarea id="motivo" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" rows="3"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Entrada</label>
-                        <input type="datetime-local" id="horaEntrada" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Salida</label>
-                        <input type="datetime-local" id="horaSalida" required class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
-                    </div>
-                    <div class="flex gap-3 pt-2">
-                        <button type="submit" class="flex-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-5 py-2.5 rounded-lg font-medium shadow hover:shadow-lg hover:brightness-110 active:scale-[.98] transition">Guardar</button>
-                        <button type="button" id="btnCancelar" class="flex-1 bg-white/10 border border-white/15 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-white/20 transition">Cancelar</button>
-                    </div>
-                </form>
+                    <h2 id="modalTitle" class="text-2xl font-semibold mb-6">Nueva Visita</h2>
+
+                    <form id="formVisita" class="space-y-5">
+                        <input type="hidden" id="visitaId" />
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Nombre</label>
+                            <input type="text" id="nombre" required
+                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">RUT</label>
+                            <input type="text" id="rut" required
+                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition dark:text-white" />
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Motivo</label>
+                            <textarea id="motivo" required
+                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition"
+                                rows="3"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Entrada</label>
+                            <input type="datetime-local" id="horaEntrada" required
+                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition dark:text-white" />
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Salida</label>
+                            <input type="datetime-local" id="horaSalida" required
+                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition dark:text-white" />
+                        </div>
+
+                        <div class="flex gap-3 pt-2">
+                            <button type="submit"
+                                class="flex-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-5 py-2.5 rounded-lg font-medium shadow hover:shadow-lg hover:brightness-110 active:scale-[.98] transition">
+                                Guardar
+                            </button>
+
+                            <button type="button" id="btnCancelar"
+                                class="flex-1 bg-white/10 border border-white/15 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-white/20 transition">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
 </DefaultLayout>
 
+
 <script>
-    // Base dinámica: definida en build (Netlify) con PUBLIC_BACKEND_URL
     const API_BASE = import.meta.env ? (import.meta.env.PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000') : 'http://127.0.0.1:8000';
     const API_URL = `${API_BASE}/visitas/`;
     const visitasContainer = document.getElementById('visitas');
@@ -125,7 +149,7 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                 return;
             }
 
-            // Determinar clave de ID real presente en los objetos
+
             const idKey = Object.keys(visitas[0]).find(k => ['id','pk','_id'].includes(k)) || null;
             if (!idKey) {
                 const warning = document.createElement('div');
@@ -136,9 +160,9 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
             visitas.forEach((item: any, index: number) => {
                 const visitaElement = document.createElement('div');
-                visitaElement.className = 'visita-card rounded-xl p-5 shadow-md';
+                visitaElement.className = 'visita-card rounded-xl p-5 shadow-md dark:shadow-white/20 backdrop-blur';
                 
-                // Usar la clave detectada (si existe)
+
                 const visitaId = idKey ? item[idKey] : '';
                 
                 console.log(`Visita ${index}:`, { id: visitaId, nombre: item.nombre, todosLosCampos: Object.keys(item), idKey });
@@ -147,20 +171,20 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                     <div class="flex justify-between items-start mb-2">
                         <div class="flex-1">
                             <h3 class="font-semibold text-lg">${item.nombre || '—'}</h3>
-                            <span class="text-sm text-gray-600">${item.rut || '—'}</span>
+                            <span class="text-sm text-gray-600 dark:text-white">${item.rut || '—'}</span>
                         </div>
                         <div class="flex gap-2">
-                            <button class="btn-editar bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600" data-index="${index}">
+                            <button class="btn-editar bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600" data-index="${index}">
                                 Editar
                             </button>
-                            ${idKey ? `<button class=\"btn-eliminar bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600\" data-id=\"${visitaId}\">Eliminar</button>` : ''}
+                            ${idKey ? `<button class=\"btn-eliminar bg-pink-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600\" data-id=\"${visitaId}\">Eliminar</button>` : ''}
                         </div>
                     </div>
                     <div class="mb-2">
                         <strong>Motivo:</strong>
                         <p class="whitespace-pre-wrap">${item.motivo || '—'}</p>
                     </div>
-                    <div class="text-sm text-gray-700">
+                    <div class="text-sm text-gray-700 dark:text-white">
                         <div><strong>Entrada:</strong> ${formatDate(item.hora_entrada)}</div>
                         <div><strong>Salida:</strong> ${formatDate(item.hora_salida)}</div>
                     </div>
@@ -168,10 +192,10 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                 visitasContainer.appendChild(visitaElement);
             });
 
-            // Generar analíticas después de renderizar tarjetas
+
             generarEstadisticas(visitas);
 
-            // Agregar event listeners a los botones
+
             document.querySelectorAll('.btn-editar').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const target = e.target as HTMLElement;
@@ -202,7 +226,7 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
         }
     }
 
-    // ----- Analíticas -----
+
     let visitasChart: any = null;
     const diasLabels = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
 
@@ -213,9 +237,8 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             if (!fechaStr) return;
             const d = new Date(fechaStr);
             if (isNaN(d.getTime())) return;
-            // getDay(): 0=Dom ... 6=Sab -> remap to our labels starting Monday
             const day = d.getDay();
-            const index = (day === 0) ? 6 : day - 1; // Monday=0 ... Sunday=6
+            const index = (day === 0) ? 6 : day - 1; 
             conteos[index]++;
         });
         renderChart(conteos);
@@ -294,14 +317,12 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
         });
     }
 
-    // Botón manual de refresco
+
     const btnRefrescarStats = document.getElementById('btnRefrescarStats');
     btnRefrescarStats?.addEventListener('click', () => cargarVisitas());
 
-    // Re-render chart al cambiar tema
     const themeObserver = new MutationObserver(() => {
         if (visitasChart) {
-            // Forzar re-render con últimos datos
             const currentData = visitasChart.data.datasets[0].data as number[];
             renderChart(currentData);
         }
@@ -435,17 +456,13 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
             try {
                 let url, method;
-                
-                // Verificar si visitaId tiene un valor válido
                 const isEdit = visitaId && visitaId.trim() !== '' && visitaId !== 'undefined';
                 
                 if (isEdit) {
-                    // Editar: usar PUT para reemplazo completo
                     url = `${API_URL}${visitaId}/`;
                     method = 'PUT';
                     console.log('Editando visita ID:', visitaId, 'URL:', url);
                 } else {
-                    // Crear nueva
                     url = API_URL;
                     method = 'POST';
                     console.log('Creando nueva visita en:', url);
@@ -487,14 +504,12 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
     }
 </script>
 <style>
-    /* Tarjetas con contenedor visible en ambos temas */
     .visita-card {
         position:relative;
         background:rgba(255,255,255,0.05);
         border:1px solid rgba(255,255,255,0.18);
-        backdrop-filter:blur(12px);
         color:#ffffff;
-        transition:background .25s,border-color .25s,transform .25s,box-shadow .25s;
+        transition: background .25s,border-color .25s,transform .25s,box-shadow .25s;
     }
     .visita-card:hover {background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.35);box-shadow:0 6px 20px -6px rgba(0,0,0,.55);transform:translateY(-3px);}    
     .visita-card h3 {font-weight:600;font-size:1.05rem;margin:0 0 .15rem;letter-spacing:.25px;color:#ffffff;}

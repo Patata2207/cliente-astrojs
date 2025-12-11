@@ -4,91 +4,292 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
 <DefaultLayout>
     <div class="max-w-7xl mx-auto p-4">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight">Panel de Visitas</h1>
-                <p class="text-sm text-white/60 mt-1">Gestión rápida y segura de registros</p>
+        <!-- Partículas decorativas de fondo -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+            <div class="particle particle-4"></div>
+            <div class="particle particle-5"></div>
+        </div>
+
+        <!-- Header con animación de entrada -->
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10 animate-fade-in-down">
+            <div class="space-y-2">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 animate-pulse-slow">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-black tracking-tight bg-gradient-to-r from-white via-indigo-200 to-pink-200 bg-clip-text text-transparent">
+                            Panel de Visitas
+                        </h1>
+                        <p class="text-sm text-white/60 mt-1 flex items-center gap-2">
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 absolute"></span>
+                            Gestión rápida y segura de registros
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="flex gap-3">
-                <button id="btnAgregar" class="group relative px-5 py-2.5 rounded-lg font-medium text-sm text-white bg-gradient-to-r from-indigo-500 to-fuchsia-500 shadow hover:shadow-lg hover:brightness-110 active:scale-[.97] transition">
-                    <span class="inline-block group-hover:translate-y-[-2px] transition">+ Nueva Visita</span>
+                <button id="btnAgregar" class="group relative px-6 py-3 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105 active:scale-[.97] transition-all duration-300 overflow-hidden">
+                    <span class="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                    <span class="relative inline-flex items-center gap-2">
+                        <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Nueva Visita
+                    </span>
                 </button>
-                <button id="logout" class="px-5 py-2.5 rounded-lg font-medium text-sm bg-white/10 border border-white/20 text-white hover:bg-white/20 backdrop-blur transition">
-                    Cerrar sesión
+                <button id="logout" class="group px-5 py-3 rounded-xl font-medium text-sm bg-white/5 border border-white/20 text-white hover:bg-red-500/20 hover:border-red-400/50 hover:text-red-300 backdrop-blur-md transition-all duration-300">
+                    <span class="inline-flex items-center gap-2">
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Cerrar sesión
+                    </span>
                 </button>
             </div>
         </div>
 
-        <section class="mb-10">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-semibold flex items-center gap-2"><span></span>Analíticas Semanales</h2>
-                <button id="btnRefrescarStats" class="text-xs px-3 py-1.5 rounded bg-white/10 border border-white/20 hover:bg-white/20 transition">Actualizar</button>
+        <!-- Cards de estadísticas rápidas -->
+        <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+            <div class="stat-card group p-5 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30 hover:border-emerald-400/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-emerald-400 font-medium px-2 py-1 rounded-full bg-emerald-500/20">Hoy</span>
+                </div>
+                <p id="visitasHoy" class="text-3xl font-bold text-white mb-1">0</p>
+                <p class="text-xs text-emerald-300/70">Visitas del día</p>
             </div>
-            <div class="stats-card relative rounded-2xl p-6 overflow-hidden">
-                <canvas id="visitasChart" height="110" aria-label="Gráfico de visitas por día" role="img"></canvas>
+            
+            <div class="stat-card group p-5 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-blue-400 font-medium px-2 py-1 rounded-full bg-blue-500/20">Semana</span>
+                </div>
+                <p id="visitasSemana" class="text-3xl font-bold text-white mb-1">0</p>
+                <p class="text-xs text-blue-300/70">Esta semana</p>
+            </div>
+            
+            <div class="stat-card group p-5 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 hover:border-amber-400/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-amber-400 font-medium px-2 py-1 rounded-full bg-amber-500/20">Prom</span>
+                </div>
+                <p id="tiempoPromedio" class="text-3xl font-bold text-white mb-1">0h</p>
+                <p class="text-xs text-amber-300/70">Tiempo promedio</p>
+            </div>
+            
+            <div class="stat-card group p-5 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30 hover:border-purple-400/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/20">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs text-purple-400 font-medium px-2 py-1 rounded-full bg-purple-500/20">Total</span>
+                </div>
+                <p id="totalVisitas" class="text-3xl font-bold text-white mb-1">0</p>
+                <p class="text-xs text-purple-300/70">Total registradas</p>
+            </div>
+        </div>
+
+        <!-- Sección de gráficos -->
+        <section class="relative z-10 mb-10 animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    Analíticas Semanales
+                </h2>
+                <button id="btnRefrescarStats" class="group text-xs px-4 py-2 rounded-xl bg-white/5 border border-white/20 hover:bg-indigo-500/20 hover:border-indigo-400/50 transition-all duration-300 flex items-center gap-2">
+                    <svg class="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    Actualizar
+                </button>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Gráfico de barras -->
+                <div class="stats-card relative rounded-2xl p-6 overflow-hidden bg-white/5 border border-white/10 backdrop-blur-xl hover:border-white/20 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-500/20 to-transparent rounded-full blur-2xl"></div>
+                    <h3 class="text-sm font-semibold text-white/70 mb-4 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                        Visitas por día
+                    </h3>
+                    <canvas id="visitasChart" height="160" aria-label="Gráfico de visitas por día" role="img"></canvas>
+                </div>
+                
+                <!-- Gráfico de dona -->
+                <div class="stats-card relative rounded-2xl p-6 overflow-hidden bg-white/5 border border-white/10 backdrop-blur-xl hover:border-white/20 transition-all duration-300">
+                    <div class="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-pink-500/20 to-transparent rounded-full blur-2xl"></div>
+                    <h3 class="text-sm font-semibold text-white/70 mb-4 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-pink-400"></span>
+                        Distribución de motivos
+                    </h3>
+                    <canvas id="motivosChart" height="160" aria-label="Gráfico de motivos de visita" role="img"></canvas>
+                </div>
             </div>
         </section>
 
-        <div id="visitas" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
+        <!-- Lista de visitas -->
+        <section class="relative z-10 animate-fade-in-up" style="animation-delay: 0.3s;">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                    </div>
+                    Registro de Visitas
+                </h2>
+                <div class="flex items-center gap-2 text-xs text-white/50">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    En tiempo real
+                </div>
+            </div>
+            <div id="visitas" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
+        </section>
 
-        <div id="modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div class="relative w-full max-w-lg">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-2xl opacity-70 blur"></div>
-                <div class="relative bg-slate-900/90 rounded-2xl p-8 border border-white/10 shadow-xl">
-                    <h2 id="modalTitle" class="text-2xl font-semibold mb-6">Nueva Visita</h2>
+        <!-- Modal mejorado -->
+        <div id="modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+            <div class="relative w-full max-w-lg animate-modal-in">
+                <!-- Efecto de brillo animado -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl opacity-75 blur-lg animate-gradient-x"></div>
+                <div class="relative bg-slate-900/95 rounded-2xl p-8 border border-white/20 shadow-2xl backdrop-blur-xl">
+                    <!-- Decoración de esquinas -->
+                    <div class="absolute top-0 left-0 w-20 h-20 border-l-2 border-t-2 border-indigo-500/50 rounded-tl-2xl"></div>
+                    <div class="absolute bottom-0 right-0 w-20 h-20 border-r-2 border-b-2 border-pink-500/50 rounded-br-2xl"></div>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                        </div>
+                        <h2 id="modalTitle" class="text-2xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">Nueva Visita</h2>
+                    </div>
 
                     <form id="formVisita" class="space-y-5">
                         <input type="hidden" id="visitaId" />
 
-                        <div>
-                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Nombre</label>
-                            <input type="text" id="nombre" required
-                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
-                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition" />
+                        <div class="group">
+                            <label class="block text-xs uppercase tracking-wider font-semibold mb-2 text-indigo-300/80">Nombre</label>
+                            <div class="relative">
+                                <input type="text" id="nombre" required
+                                    class="w-full rounded-xl px-4 py-3 bg-white/5 border border-white/15
+                                    focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition-all duration-300
+                                    placeholder:text-white/30 hover:bg-white/10" 
+                                    placeholder="Ingrese el nombre completo" />
+                                <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div>
+                            </div>
                         </div>
 
-                        <div>
-                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">RUT</label>
+                        <div class="group">
+                            <label class="block text-xs uppercase tracking-wider font-semibold mb-2 text-indigo-300/80">RUT</label>
                             <input type="text" id="rut" required
-                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
-                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition dark:text-white" />
+                                class="w-full rounded-xl px-4 py-3 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition-all duration-300
+                                placeholder:text-white/30 hover:bg-white/10 dark:text-white" 
+                                placeholder="Ej: 12.345.678-9" />
                         </div>
 
-                        <div>
-                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Motivo</label>
+                        <div class="group">
+                            <label class="block text-xs uppercase tracking-wider font-semibold mb-2 text-indigo-300/80">Motivo</label>
                             <textarea id="motivo" required
-                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
-                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition"
-                                rows="3"></textarea>
+                                class="w-full rounded-xl px-4 py-3 bg-white/5 border border-white/15
+                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition-all duration-300
+                                placeholder:text-white/30 hover:bg-white/10 resize-none"
+                                rows="3" placeholder="Describa el motivo de la visita..."></textarea>
                         </div>
 
-                        <div>
-                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Entrada</label>
-                            <input type="datetime-local" id="horaEntrada" required
-                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
-                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition dark:text-white" />
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="group">
+                                <label class="block text-xs uppercase tracking-wider font-semibold mb-2 text-emerald-300/80">Hora Entrada</label>
+                                <input type="datetime-local" id="horaEntrada" required
+                                    class="w-full rounded-xl px-4 py-3 bg-white/5 border border-white/15
+                                    focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 outline-none transition-all duration-300
+                                    hover:bg-white/10 dark:text-white" />
+                            </div>
+
+                            <div class="group">
+                                <label class="block text-xs uppercase tracking-wider font-semibold mb-2 text-rose-300/80">Hora Salida</label>
+                                <input type="datetime-local" id="horaSalida" required
+                                    class="w-full rounded-xl px-4 py-3 bg-white/5 border border-white/15
+                                    focus:border-rose-400 focus:ring-2 focus:ring-rose-400/30 outline-none transition-all duration-300
+                                    hover:bg-white/10 dark:text-white" />
+                            </div>
                         </div>
 
-                        <div>
-                            <label class="block text-xs uppercase tracking-wide font-semibold mb-2 text-white/70">Hora Salida</label>
-                            <input type="datetime-local" id="horaSalida" required
-                                class="w-full rounded-lg px-4 py-2.5 bg-white/5 border border-white/15
-                                focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 outline-none transition dark:text-white" />
-                        </div>
-
-                        <div class="flex gap-3 pt-2">
+                        <div class="flex gap-3 pt-4">
                             <button type="submit"
-                                class="flex-1 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-5 py-2.5 rounded-lg font-medium shadow hover:shadow-lg hover:brightness-110 active:scale-[.98] transition">
-                                Guardar
+                                class="flex-1 group relative bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-5 py-3 rounded-xl font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:scale-[1.02] active:scale-[.98] transition-all duration-300 overflow-hidden">
+                                <span class="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                                <span class="relative inline-flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    Guardar
+                                </span>
                             </button>
 
                             <button type="button" id="btnCancelar"
-                                class="flex-1 bg-white/10 border border-white/15 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-white/20 transition">
+                                class="flex-1 bg-white/5 border border-white/20 text-white px-5 py-3 rounded-xl font-semibold hover:bg-red-500/20 hover:border-red-400/50 hover:text-red-300 transition-all duration-300 flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
                                 Cancelar
                             </button>
                         </div>
                     </form>
 
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenedor de notificaciones Toast -->
+        <div id="toastContainer" class="fixed top-4 right-4 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+        <!-- Modal de confirmación personalizado -->
+        <div id="confirmModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[60] p-4">
+            <div class="relative w-full max-w-sm animate-modal-in">
+                <div class="absolute -inset-1 bg-gradient-to-r from-red-500 via-pink-500 to-rose-500 rounded-2xl opacity-75 blur-lg"></div>
+                <div class="relative bg-slate-900/95 rounded-2xl p-6 border border-white/20 shadow-2xl backdrop-blur-xl text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 id="confirmTitle" class="text-xl font-bold text-white mb-2">¿Estás seguro?</h3>
+                    <p id="confirmMessage" class="text-white/60 mb-6">Esta acción no se puede deshacer.</p>
+                    <div class="flex gap-3">
+                        <button id="confirmCancel" class="flex-1 px-4 py-2.5 rounded-xl font-medium bg-white/5 border border-white/20 text-white hover:bg-white/10 transition-all duration-300">
+                            Cancelar
+                        </button>
+                        <button id="confirmAccept" class="flex-1 px-4 py-2.5 rounded-xl font-medium bg-gradient-to-r from-red-500 to-pink-500 text-white hover:shadow-lg hover:shadow-red-500/30 transition-all duration-300">
+                            Eliminar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,6 +307,125 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
     const btnAgregar = document.getElementById('btnAgregar');
     const btnCancelar = document.getElementById('btnCancelar');
     const logoutBtn = document.getElementById('logout');
+
+    // Sistema de notificaciones Toast
+    type ToastType = 'success' | 'error' | 'warning' | 'info';
+    
+    function showToast(message: string, type: ToastType = 'info', duration: number = 4000) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `
+            pointer-events-auto flex items-center gap-3 px-5 py-4 rounded-2xl shadow-2xl backdrop-blur-xl
+            border transform translate-x-full opacity-0 transition-all duration-500 ease-out max-w-sm
+            ${type === 'success' ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-100' : ''}
+            ${type === 'error' ? 'bg-red-500/20 border-red-500/40 text-red-100' : ''}
+            ${type === 'warning' ? 'bg-amber-500/20 border-amber-500/40 text-amber-100' : ''}
+            ${type === 'info' ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-100' : ''}
+        `;
+
+        const icons: Record<ToastType, string> = {
+            success: `<svg class="w-6 h-6 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>`,
+            error: `<svg class="w-6 h-6 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>`,
+            warning: `<svg class="w-6 h-6 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>`,
+            info: `<svg class="w-6 h-6 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>`
+        };
+
+        toast.innerHTML = `
+            ${icons[type]}
+            <div class="flex-1">
+                <p class="font-medium text-sm">${message}</p>
+            </div>
+            <button class="toast-close p-1 rounded-lg hover:bg-white/10 transition-colors">
+                <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r ${type === 'success' ? 'from-emerald-500 to-green-500' : type === 'error' ? 'from-red-500 to-pink-500' : type === 'warning' ? 'from-amber-500 to-orange-500' : 'from-indigo-500 to-purple-500'} rounded-b-2xl toast-progress"></div>
+        `;
+        
+        toast.style.position = 'relative';
+        toast.style.overflow = 'hidden';
+
+        container.appendChild(toast);
+
+        // Animación de entrada
+        requestAnimationFrame(() => {
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+        });
+
+        // Barra de progreso
+        const progressBar = toast.querySelector('.toast-progress') as HTMLElement;
+        if (progressBar) {
+            progressBar.style.width = '100%';
+            progressBar.style.transition = `width ${duration}ms linear`;
+            requestAnimationFrame(() => {
+                progressBar.style.width = '0%';
+            });
+        }
+
+        // Cerrar manualmente
+        const closeBtn = toast.querySelector('.toast-close');
+        closeBtn?.addEventListener('click', () => removeToast(toast));
+
+        // Auto cerrar
+        setTimeout(() => removeToast(toast), duration);
+    }
+
+    function removeToast(toast: HTMLElement) {
+        toast.classList.add('translate-x-full', 'opacity-0');
+        setTimeout(() => toast.remove(), 500);
+    }
+
+    // Sistema de confirmación personalizado
+    function showConfirm(title: string, message: string): Promise<boolean> {
+        return new Promise((resolve) => {
+            const confirmModal = document.getElementById('confirmModal');
+            const confirmTitle = document.getElementById('confirmTitle');
+            const confirmMessage = document.getElementById('confirmMessage');
+            const confirmCancel = document.getElementById('confirmCancel');
+            const confirmAccept = document.getElementById('confirmAccept');
+
+            if (!confirmModal || !confirmTitle || !confirmMessage || !confirmCancel || !confirmAccept) {
+                resolve(false);
+                return;
+            }
+
+            confirmTitle.textContent = title;
+            confirmMessage.textContent = message;
+            confirmModal.classList.remove('hidden');
+
+            const handleCancel = () => {
+                confirmModal.classList.add('hidden');
+                cleanup();
+                resolve(false);
+            };
+
+            const handleAccept = () => {
+                confirmModal.classList.add('hidden');
+                cleanup();
+                resolve(true);
+            };
+
+            const cleanup = () => {
+                confirmCancel.removeEventListener('click', handleCancel);
+                confirmAccept.removeEventListener('click', handleAccept);
+            };
+
+            confirmCancel.addEventListener('click', handleCancel);
+            confirmAccept.addEventListener('click', handleAccept);
+        });
+    }
     
     const token = window.sessionStorage.getItem('access_token');
 
@@ -160,7 +480,8 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
             visitas.forEach((item: any, index: number) => {
                 const visitaElement = document.createElement('div');
-                visitaElement.className = 'visita-card rounded-xl p-5 shadow-md dark:shadow-white/20 backdrop-blur';
+                visitaElement.className = 'visita-card rounded-2xl p-6 shadow-xl backdrop-blur-xl animate-card-in';
+                visitaElement.style.animationDelay = `${index * 0.1}s`;
                 
 
                 const visitaId = idKey ? item[idKey] : '';
@@ -168,25 +489,64 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                 console.log(`Visita ${index}:`, { id: visitaId, nombre: item.nombre, todosLosCampos: Object.keys(item), idKey });
                 
                 visitaElement.innerHTML = `
-                    <div class="flex justify-between items-start mb-2">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-2xl"></div>
+                    <div class="flex justify-between items-start mb-4">
                         <div class="flex-1">
-                            <h3 class="font-semibold text-lg">${item.nombre || '—'}</h3>
-                            <span class="text-sm text-gray-600 dark:text-white">${item.rut || '—'}</span>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500/30 to-purple-500/30 flex items-center justify-center">
+                                    <span class="text-lg font-bold text-indigo-300">${(item.nombre || 'U')[0].toUpperCase()}</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-white">${item.nombre || '—'}</h3>
+                                    <span class="text-sm text-indigo-300/70 flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/>
+                                        </svg>
+                                        ${item.rut || '—'}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex gap-2">
-                            <button class="btn-editar bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600" data-index="${index}">
-                                Editar
+                            <button class="btn-editar group" data-index="${index}" title="Editar">
+                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
                             </button>
-                            ${idKey ? `<button class=\"btn-eliminar bg-pink-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600\" data-id=\"${visitaId}\">Eliminar</button>` : ''}
+                            ${idKey ? `<button class="btn-eliminar group" data-id="${visitaId}" title="Eliminar">
+                                <svg class="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </button>` : ''}
                         </div>
                     </div>
-                    <div class="mb-2">
-                        <strong>Motivo:</strong>
-                        <p class="whitespace-pre-wrap">${item.motivo || '—'}</p>
+                    <div class="mb-4 p-3 rounded-xl bg-white/5 border border-white/10 motivo-container">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                            </svg>
+                            <p class="text-sm motivo-text whitespace-pre-wrap">${item.motivo || '—'}</p>
+                        </div>
                     </div>
-                    <div class="text-sm text-gray-700 dark:text-white">
-                        <div><strong>Entrada:</strong> ${formatDate(item.hora_entrada)}</div>
-                        <div><strong>Salida:</strong> ${formatDate(item.hora_salida)}</div>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center gap-2 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                            <div>
+                                <p class="text-[10px] text-emerald-400/70 uppercase tracking-wider font-medium">Entrada</p>
+                                <p class="text-emerald-300 font-medium">${formatDate(item.hora_entrada)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-lg bg-rose-500/10 border border-rose-500/20">
+                            <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            <div>
+                                <p class="text-[10px] text-rose-400/70 uppercase tracking-wider font-medium">Salida</p>
+                                <p class="text-rose-300 font-medium">${formatDate(item.hora_salida)}</p>
+                            </div>
+                        </div>
                     </div>
                 `;
                 visitasContainer.appendChild(visitaElement);
@@ -194,12 +554,15 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
 
             generarEstadisticas(visitas);
+            actualizarStatsCards(visitas);
 
 
             document.querySelectorAll('.btn-editar').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const target = e.target as HTMLElement;
-                    const index = parseInt(target.dataset.index || '0');
+                    e.stopPropagation();
+                    const button = (e.currentTarget as HTMLElement);
+                    const index = parseInt(button.dataset.index || '0');
+                    console.log('Editando índice:', index);
                     editarVisita(index, visitas);
                 });
             });
@@ -207,13 +570,14 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
             if (idKey) {
                 document.querySelectorAll('.btn-eliminar').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        const target = e.target as HTMLElement;
-                        const id = target.dataset.id;
+                        e.stopPropagation();
+                        const button = (e.currentTarget as HTMLElement);
+                        const id = button.dataset.id;
                         console.log('Intentando eliminar ID:', id);
                         if (id && id !== '' && id !== 'undefined') {
                             eliminarVisita(id);
                         } else {
-                            alert('Error: No se puede identificar la visita. Revisa la consola para más detalles.');
+                            showToast('No se puede identificar la visita. Revisa la consola para más detalles.', 'error');
                         }
                     });
                 });
@@ -228,7 +592,159 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
 
     let visitasChart: any = null;
+    let motivosChart: any = null;
     const diasLabels = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+
+    function actualizarStatsCards(visitas: any[]) {
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        
+        const inicioSemana = new Date(hoy);
+        inicioSemana.setDate(hoy.getDate() - hoy.getDay() + 1);
+        
+        let visitasHoy = 0;
+        let visitasSemana = 0;
+        let tiempoTotal = 0;
+        let visitasConTiempo = 0;
+        
+        visitas.forEach(v => {
+            const fechaEntrada = v.hora_entrada ? new Date(v.hora_entrada) : null;
+            const fechaSalida = v.hora_salida ? new Date(v.hora_salida) : null;
+            
+            if (fechaEntrada) {
+                const fechaVisita = new Date(fechaEntrada);
+                fechaVisita.setHours(0, 0, 0, 0);
+                
+                if (fechaVisita.getTime() === hoy.getTime()) {
+                    visitasHoy++;
+                }
+                
+                if (fechaVisita >= inicioSemana) {
+                    visitasSemana++;
+                }
+            }
+            
+            if (fechaEntrada && fechaSalida) {
+                const diff = fechaSalida.getTime() - fechaEntrada.getTime();
+                if (diff > 0) {
+                    tiempoTotal += diff;
+                    visitasConTiempo++;
+                }
+            }
+        });
+        
+        const tiempoPromedio = visitasConTiempo > 0 ? tiempoTotal / visitasConTiempo : 0;
+        const horas = Math.floor(tiempoPromedio / (1000 * 60 * 60));
+        const minutos = Math.floor((tiempoPromedio % (1000 * 60 * 60)) / (1000 * 60));
+        
+        const animateNumber = (el: HTMLElement | null, target: number, suffix = '') => {
+            if (!el) return;
+            let current = 0;
+            const increment = target / 30;
+            const animate = () => {
+                current += increment;
+                if (current < target) {
+                    el.textContent = Math.floor(current) + suffix;
+                    requestAnimationFrame(animate);
+                } else {
+                    el.textContent = target + suffix;
+                }
+            };
+            animate();
+        };
+        
+        animateNumber(document.getElementById('visitasHoy'), visitasHoy);
+        animateNumber(document.getElementById('visitasSemana'), visitasSemana);
+        animateNumber(document.getElementById('totalVisitas'), visitas.length);
+        
+        const tiempoEl = document.getElementById('tiempoPromedio');
+        if (tiempoEl) {
+            if (horas > 0) {
+                tiempoEl.textContent = `${horas}h ${minutos}m`;
+            } else {
+                tiempoEl.textContent = `${minutos}m`;
+            }
+        }
+        
+        // Generar gráfico de motivos
+        generarGraficoMotivos(visitas);
+    }
+
+    function generarGraficoMotivos(visitas: any[]) {
+        const motivos: Record<string, number> = {};
+        visitas.forEach(v => {
+            const motivo = v.motivo ? v.motivo.substring(0, 20) + (v.motivo.length > 20 ? '...' : '') : 'Sin motivo';
+            motivos[motivo] = (motivos[motivo] || 0) + 1;
+        });
+        
+        const labels = Object.keys(motivos).slice(0, 5);
+        const data = labels.map(l => motivos[l]);
+        
+        ensureChartJs(() => {
+            const ctx = document.getElementById('motivosChart') as HTMLCanvasElement | null;
+            if (!ctx) return;
+            
+            const darkMode = !document.documentElement.classList.contains('light');
+            const colors = [
+                'rgba(236, 72, 153, 0.8)',
+                'rgba(99, 102, 241, 0.8)',
+                'rgba(34, 197, 94, 0.8)',
+                'rgba(245, 158, 11, 0.8)',
+                'rgba(139, 92, 246, 0.8)'
+            ];
+            
+            if (motivosChart) {
+                motivosChart.data.labels = labels;
+                motivosChart.data.datasets[0].data = data;
+                motivosChart.update();
+                return;
+            }
+            
+            motivosChart = new (window as any).Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: colors,
+                        borderColor: darkMode ? 'rgba(30, 41, 59, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                        borderWidth: 3,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    animation: { 
+                        duration: 1000, 
+                        easing: 'easeOutQuart',
+                        animateRotate: true,
+                        animateScale: true
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: darkMode ? '#ffffff' : '#1e293b',
+                                padding: 15,
+                                usePointStyle: true,
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: darkMode ? 'rgba(30,41,59,0.95)' : 'rgba(255,255,255,0.95)',
+                            titleColor: darkMode ? '#ffffff' : '#1e293b',
+                            bodyColor: darkMode ? '#ffffff' : '#1e293b',
+                            borderColor: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        });
+    }
 
     function generarEstadisticas(visitas: any[]) {
         const conteos = [0,0,0,0,0,0,0];
@@ -390,12 +906,17 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
         console.log('ID recibido:', id, 'tipo:', typeof id);
         
         if (!id || id === 'undefined' || id.trim() === '') {
-            alert('No se puede eliminar: ID no válido. Verifica la estructura de datos de la API.');
+            showToast('No se puede eliminar: ID no válido', 'error');
             console.error('ID inválido para eliminar');
             return;
         }
 
-        if (!confirm('¿Estás seguro de eliminar esta visita?')) return;
+        const confirmed = await showConfirm(
+            '¿Eliminar visita?',
+            'Esta acción eliminará permanentemente el registro de la visita.'
+        );
+        
+        if (!confirmed) return;
 
         const deleteUrl = `${API_URL}${id}/`;
         console.log('URL DELETE:', deleteUrl);
@@ -414,11 +935,11 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                 throw new Error('Error al eliminar visita');
             }
 
-            alert('Visita eliminada correctamente');
+            showToast('¡Visita eliminada correctamente!', 'success');
             cargarVisitas();
         } catch (error) {
             console.error('Error completo:', error);
-            alert('Error al eliminar la visita. Revisa la consola para más detalles.');
+            showToast('Error al eliminar la visita. Intenta nuevamente.', 'error');
         }
     }
 
@@ -485,12 +1006,12 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
                 const resultado = await res.json();
                 console.log('Respuesta del servidor:', resultado);
 
-                alert(`Visita ${isEdit ? 'actualizada' : 'creada'} correctamente`);
+                showToast(`¡Visita ${isEdit ? 'actualizada' : 'creada'} correctamente!`, 'success');
                 cerrarModal();
                 cargarVisitas();
             } catch (error) {
                 console.error('Error:', error);
-                alert(`Error al ${visitaId ? 'actualizar' : 'crear'} la visita`);
+                showToast(`Error al ${visitaId ? 'actualizar' : 'crear'} la visita`, 'error');
             }
         });
     }
@@ -504,27 +1025,462 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
     }
 </script>
 <style>
-    .visita-card {
-        position:relative;
-        background:rgba(255,255,255,0.05);
-        border:1px solid rgba(255,255,255,0.18);
-        color:#ffffff;
-        transition: background .25s,border-color .25s,transform .25s,box-shadow .25s;
+    /* Animaciones principales */
+    @keyframes fade-in-down {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    .visita-card:hover {background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.35);box-shadow:0 6px 20px -6px rgba(0,0,0,.55);transform:translateY(-3px);}    
-    .visita-card h3 {font-weight:600;font-size:1.05rem;margin:0 0 .15rem;letter-spacing:.25px;color:#ffffff;}
-    .visita-card strong {color:#ffffff;font-weight:600;}
-    .visita-card p, .visita-card span, .visita-card div {color:#ffffff;}
-    .visita-card .text-gray-600, .visita-card .text-gray-700 {color:#ffffff !important;}
-    .visita-card .whitespace-pre-wrap {color:#ffffff;}
-    .btn-editar, .btn-eliminar {font-size:.70rem;font-weight:600;padding:.45rem .65rem;border-radius:.55rem;line-height:1;letter-spacing:.5px;}
-    .btn-editar {background:#d4a60b;}
-    .btn-editar:hover {background:#eab308;}
-    .btn-eliminar {background:#dc2626;}
-    .btn-eliminar:hover {background:#ef4444;}
-    html.light .visita-card {background:#ffffff;color:#1e293b;border:1px solid #e2e8f0;box-shadow:0 6px 18px -4px rgba(0,0,0,.15);}    
-    html.light .visita-card:hover {background:#ffffff;border-color:#cbd5e1;}
-    html.light .visita-card h3 {color:#0f172a;}
-    html.light .visita-card p, html.light .visita-card span, html.light .visita-card div {color:#334155;}
-    html.light .visita-card strong {color:#0f172a;}
-</style>
+    
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes card-in {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    @keyframes modal-in {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    
+    @keyframes gradient-x {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+    
+    @keyframes pulse-slow {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.85;
+            transform: scale(1.05);
+        }
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-20px) rotate(5deg);
+        }
+    }
+    
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+    
+    /* Clases de animación */
+    .animate-fade-in-down {
+        animation: fade-in-down 0.6s ease-out forwards;
+    }
+    
+    .animate-fade-in-up {
+        animation: fade-in-up 0.6s ease-out forwards;
+        opacity: 0;
+    }
+    
+    .animate-card-in {
+        animation: card-in 0.5s ease-out forwards;
+        opacity: 0;
+    }
+    
+    .animate-modal-in {
+        animation: modal-in 0.4s ease-out forwards;
+    }
+    
+    .animate-gradient-x {
+        background-size: 200% 200%;
+        animation: gradient-x 3s ease infinite;
+    }
+    
+    .animate-pulse-slow {
+        animation: pulse-slow 3s ease-in-out infinite;
+    }
+    
+    /* Partículas decorativas */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(236, 72, 153, 0.3));
+        filter: blur(40px);
+        animation: float 15s ease-in-out infinite;
+    }
+    
+    .particle-1 {
+        width: 300px;
+        height: 300px;
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+    
+    .particle-2 {
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        right: 15%;
+        animation-delay: -3s;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(139, 92, 246, 0.25));
+    }
+    
+    .particle-3 {
+        width: 250px;
+        height: 250px;
+        bottom: 20%;
+        left: 30%;
+        animation-delay: -6s;
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(99, 102, 241, 0.2));
+    }
+    
+    .particle-4 {
+        width: 180px;
+        height: 180px;
+        top: 30%;
+        left: 60%;
+        animation-delay: -9s;
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(236, 72, 153, 0.2));
+    }
+    
+    .particle-5 {
+        width: 220px;
+        height: 220px;
+        bottom: 10%;
+        right: 25%;
+        animation-delay: -12s;
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(99, 102, 241, 0.25));
+    }
+    
+    /* Cards de visitas mejoradas */
+    .visita-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .visita-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .visita-card:hover::before {
+        left: 100%;
+    }
+    
+    .visita-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 
+            0 10px 40px -10px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(99, 102, 241, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transform: translateY(-5px);
+    }
+    
+    .visita-card h3 {
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+    }
+    
+    /* Botones de acción */
+    .btn-editar, .btn-eliminar {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.6rem 0.8rem;
+        border-radius: 0.75rem;
+        line-height: 1;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .btn-editar {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+        border: 1px solid rgba(99, 102, 241, 0.5);
+        color: #a5b4fc;
+    }
+    
+    .btn-editar:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(139, 92, 246, 0.5));
+        border-color: rgba(99, 102, 241, 0.8);
+        color: #ffffff;
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-eliminar {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(236, 72, 153, 0.3));
+        border: 1px solid rgba(239, 68, 68, 0.5);
+        color: #fca5a5;
+    }
+    
+    .btn-eliminar:hover {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(236, 72, 153, 0.5));
+        border-color: rgba(239, 68, 68, 0.8);
+        color: #ffffff;
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+    
+    /* Cards de estadísticas */
+    .stat-card {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .stat-card:hover::after {
+        opacity: 1;
+    }
+    
+    /* Estilos para gráficos */
+    .stats-card {
+        position: relative;
+    }
+    
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+        border-radius: inherit;
+        z-index: -1;
+    }
+    
+    /* Tema claro - Paleta de colores mejorada */
+    html.light .visita-card {
+        background: #ffffff;
+        color: #1e293b;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.1);
+    }
+    
+    html.light .visita-card:hover {
+        background: #ffffff;
+        border-color: #6366f1;
+        box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.25);
+    }
+    
+    html.light .visita-card h3 {
+        color: #0f172a !important;
+    }
+    
+    html.light .visita-card p,
+    html.light .visita-card span,
+    html.light .visita-card div {
+        color: #475569 !important;
+    }
+
+    html.light .visita-card .text-indigo-300\/70 {
+        color: #4f46e5 !important;
+    }
+
+    html.light .visita-card .text-white\/80 {
+        color: #0f172a !important;
+    }
+
+    html.light .visita-card .text-sm.text-white\/80,
+    html.light .visita-card p.whitespace-pre-wrap,
+    html.light .visita-card .whitespace-pre-wrap {
+        color: #0f172a !important;
+    }
+
+    /* Forzar color negro en el contenedor del motivo */
+    html.light .visita-card .mb-4.p-3 p {
+        color: #0f172a !important;
+    }
+
+    html.light .visita-card [class*="text-white"] {
+        color: #0f172a !important;
+    }
+
+    /* Estilos específicos para el motivo */
+    .motivo-text {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    html.light .motivo-text {
+        color: #0f172a !important;
+    }
+
+    html.light .motivo-container {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    html.light .visita-card .bg-emerald-500\/10 {
+        background: #d1fae5 !important;
+        border-color: #10b981 !important;
+    }
+
+    html.light .visita-card .text-emerald-400,
+    html.light .visita-card .text-emerald-300,
+    html.light .visita-card .text-emerald-400\/70 {
+        color: #047857 !important;
+    }
+
+    html.light .visita-card .bg-rose-500\/10 {
+        background: #ffe4e6 !important;
+        border-color: #f43f5e !important;
+    }
+
+    html.light .visita-card .text-rose-400,
+    html.light .visita-card .text-rose-300,
+    html.light .visita-card .text-rose-400\/70 {
+        color: #be123c !important;
+    }
+
+    html.light .visita-card .text-purple-400 {
+        color: #7c3aed !important;
+    }
+
+    html.light .visita-card .bg-gradient-to-br {
+        background: linear-gradient(to bottom right, #e0e7ff, #c7d2fe) !important;
+    }
+
+    html.light .visita-card .text-indigo-300 {
+        color: #4338ca !important;
+    }
+
+    html.light .visita-card .bg-white\/5 {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+    
+    html.light .stat-card {
+        background: #ffffff !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    html.light .stat-card p.text-white {
+        color: #0f172a !important;
+    }
+
+    html.light .stat-card .text-emerald-300\/70,
+    html.light .stat-card .text-blue-300\/70,
+    html.light .stat-card .text-amber-300\/70,
+    html.light .stat-card .text-purple-300\/70 {
+        color: #64748b !important;
+    }
+    
+    html.light .stats-card {
+        background: #ffffff !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    html.light .stats-card .text-white\/70 {
+        color: #475569 !important;
+    }
+    
+    html.light .particle {
+        opacity: 0.15;
+    }
+
+    /* Botones en modo claro */
+    html.light .btn-editar {
+        background: linear-gradient(135deg, #e0e7ff, #c7d2fe) !important;
+        border-color: #6366f1 !important;
+        color: #3730a3 !important;
+    }
+
+    html.light .btn-editar:hover {
+        background: linear-gradient(135deg, #c7d2fe, #a5b4fc) !important;
+    }
+
+    html.light .btn-eliminar {
+        background: linear-gradient(135deg, #ffe4e6, #fecdd3) !important;
+        border-color: #f43f5e !important;
+        color: #9f1239 !important;
+    }
+
+    html.light .btn-eliminar:hover {
+        background: linear-gradient(135deg, #fecdd3, #fda4af) !important;
+    }
+    
+    /* Scrollbar personalizado */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(236, 72, 153, 0.5));
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.7), rgba(236, 72, 153, 0.7));
+    }
+    
+    /* Selección de texto */
+    ::selection {
+        background: rgba(99, 102, 241, 0.5);
+        color: #ffffff;
+    }

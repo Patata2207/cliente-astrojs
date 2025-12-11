@@ -298,7 +298,7 @@ import DefaultLayout from "../layout/DefaultLayout.astro";
 
 
 <script>
-    const API_BASE = import.meta.env ? (import.meta.env.PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000') : 'http://127.0.0.1:8000';
+    const API_BASE = import.meta.env?.PUBLIC_BACKEND_URL || 'https://evaluacion-1-kn4q.onrender.com';
     const API_URL = `${API_BASE}/visitas/`;
     const visitasContainer = document.getElementById('visitas');
     const modal = document.getElementById('modal');

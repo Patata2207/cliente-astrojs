@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Base URL obtenida de variable pública para despliegue. En local usa fallback.
-const API_BASE = import.meta.env.PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000';
+const API_BASE = import.meta.env.PUBLIC_BACKEND_URL || 'https://evaluacion-1-kn4q.onrender.com';
 
 export default function LoginForm() {
     const [loading, setLoading] = useState(false);
